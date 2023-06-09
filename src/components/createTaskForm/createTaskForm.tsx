@@ -17,8 +17,8 @@ export const CreateTaskForm: FC = (): ReactElement => {
         Create A Task
       </Typography>
       <Stack spacing={2} width="100%">
-        <TaskTitleField />
-        <TaskDescriptionField />
+        <TaskTitleField label={'Task Title'} />
+        <TaskDescriptionField label={'Task Description'} />
       </Stack>
       {/* task date */}
       {/* task status */}
