@@ -21,6 +21,7 @@ export const Profile: FC<IProfile> = (
         sx={{
           width: '96px',
           height: '96px',
+          backgroundColor: 'primary.main',
         }}
       >
         <Typography variant="h4" color="text.primary">
