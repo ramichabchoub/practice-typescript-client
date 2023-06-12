@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useState } from 'react';
 import { Box, Typography, Stack } from '@mui/material';
 import { TaskTitleField } from './_taskTitleField';
 import { TaskDescriptionField } from './_taskDescriptionField';
@@ -8,6 +8,22 @@ import { Status } from './enums/Status';
 import { Priority } from './enums/Priority';
 
 export const CreateTaskForm: FC = (): ReactElement => {
+  const [taskTitle, setTaskTitle] = useState<
+    string | undefined
+  >(undefined);
+  const [taskDescription, setTaskDescription] = useState<
+    string | undefined
+  >(undefined);
+  const [taskDate, setTaskDate] = useState<Date | null>(
+    new Date(),
+  );
+  const [taskStatus, setTaskStatus] = useState<string>(
+    Status.TODO,
+  );
+  const [taskPriority, setTaskPriority] = useState<string>(
+    Priority.NORMAL,
+  );
+
   return (
     <Box
       display="flex"
@@ -21,9 +37,20 @@ export const CreateTaskForm: FC = (): ReactElement => {
         Create A Task
       </Typography>
       <Stack spacing={2} width="100%">
-        <TaskTitleField label={'Task Title'} />
-        <TaskDescriptionField label={'Task Description'} />
-        <TaskDateField />
+        <TaskTitleField
+          label={'Task Title'}
+          onChange={(e) => setTaskTitle(e.target.value)}
+        />
+        <TaskDescriptionField
+          label={'Task Description'}
+          onChange={(e) =>
+            setTaskDescription(e.target.value)
+          }
+        />
+        <TaskDateField
+          label={'Task Date'}
+          onChange={(date) => setTaskDate(date)}
+        />
         <Stack direction="row" spacing={2} width="100%">
           <TaskSelectField
             label={'Select Status'}
@@ -42,6 +69,10 @@ export const CreateTaskForm: FC = (): ReactElement => {
                 label: Status.DONE.toUpperCase(),
               },
             ]}
+            value={taskStatus}
+            onChange={(e) =>
+              setTaskStatus(e.target.value as string)
+            }
           />
           <TaskSelectField
             label={'Select Priority'}
@@ -60,12 +91,13 @@ export const CreateTaskForm: FC = (): ReactElement => {
                 label: Priority.HIGH.toUpperCase(),
               },
             ]}
+            value={taskPriority}
+            onChange={(e) =>
+              setTaskPriority(e.target.value as string)
+            }
           />
         </Stack>
       </Stack>
-      {/* task date */}
-      {/* task status */}
-      {/* task priority */}
     </Box>
   );
 };
