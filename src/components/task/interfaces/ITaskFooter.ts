@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface ITaskFooter {
-  id: string;
+  id: number;
   status?: string;
   onSatatusChange?: (
     e: React.ChangeEvent<HTMLInputElement>,

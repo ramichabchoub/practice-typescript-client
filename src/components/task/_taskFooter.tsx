@@ -59,7 +59,7 @@ export const TaskFooter: FC<ITaskFooter> = (
 };
 
 TaskFooter.propTypes = {
-  id: propTypes.string.isRequired,
+  id: propTypes.number.isRequired,
   status: propTypes.string,
   onClick: propTypes.func,
   onSatatusChange: propTypes.func,

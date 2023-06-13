@@ -23,6 +23,8 @@ export const TaskArea: FC = (): ReactElement => {
     },
   );
 
+  console.log(data);
+
   return (
     <Grid item md={8} px={4}>
       <Box mb={8} px={4}>
@@ -81,10 +83,23 @@ export const TaskArea: FC = (): ReactElement => {
               </Alert>
             )}
 
-          {isLoading && <LinearProgress />}
-
-          <Task id="123" />
-          <Task id="123" />
+          {isLoading ? (
+            <LinearProgress />
+          ) : (
+            Array.isArray(data) &&
+            data.length > 0 &&
+            data.map((task, index) => (
+              <Task
+                key={index}
+                id={task.id}
+                title={task.title}
+                date={new Date(task.date)}
+                description={task.description}
+                prioprity={task.priority}
+                status={task.status}
+              />
+            ))
+          )}
         </Grid>
       </Grid>
     </Grid>
