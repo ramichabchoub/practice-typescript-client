@@ -45,13 +45,13 @@ export const CreateTaskForm: FC = (): ReactElement => {
   );
 
   const createTaskHandler = () => {
-    if (!taskTitle || !taskDescription || !taskDate) {
+    if (!taskTitle || !taskDescription) {
       return;
     }
     const task: ICreateTask = {
       title: taskTitle,
       description: taskDescription,
-      date: taskDate.toString(),
+      date: taskDate?.toString() || '',
       status: taskStatus,
       priority: taskPriority,
     };
@@ -82,16 +82,19 @@ export const CreateTaskForm: FC = (): ReactElement => {
         <TaskTitleField
           label={'Task Title'}
           onChange={(e) => setTaskTitle(e.target.value)}
+          disabled={createTaskMutation.isLoading}
         />
         <TaskDescriptionField
           label={'Task Description'}
           onChange={(e) =>
             setTaskDescription(e.target.value)
           }
+          disabled={createTaskMutation.isLoading}
         />
         <TaskDateField
           label={'Task Date'}
           onChange={(date) => setTaskDate(date)}
+          disabled={createTaskMutation.isLoading}
         />
         <Stack direction="row" spacing={2} width="100%">
           <TaskSelectField
@@ -115,6 +118,7 @@ export const CreateTaskForm: FC = (): ReactElement => {
             onChange={(e) =>
               setTaskStatus(e.target.value as string)
             }
+            disabled={createTaskMutation.isLoading}
           />
           <TaskSelectField
             label={'Select Priority'}
@@ -137,14 +141,20 @@ export const CreateTaskForm: FC = (): ReactElement => {
             onChange={(e) =>
               setTaskPriority(e.target.value as string)
             }
+            disabled={createTaskMutation.isLoading}
           />
         </Stack>
-        <LinearProgress />
+        {createTaskMutation.isLoading && <LinearProgress />}
         <Button
           variant="contained"
           size="large"
           fullWidth
           onClick={createTaskHandler}
+          disabled={
+            !taskTitle ||
+            !taskDescription ||
+            createTaskMutation.isLoading
+          }
         >
           Create A Task
         </Button>
