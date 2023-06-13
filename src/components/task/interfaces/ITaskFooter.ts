@@ -1,6 +1,8 @@
 import React from 'react';
 
 export interface ITaskFooter {
+  id: string;
+  status?: string;
   onSatatusChange?: (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => void;

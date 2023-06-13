@@ -1,10 +1,28 @@
 import { FC, ReactElement } from 'react';
-import { Grid, Box } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
+import {
+  Grid,
+  Box,
+  Alert,
+  LinearProgress,
+} from '@mui/material';
 import format from 'date-fns/format';
 import { TaskCounter } from '../taskCounter/taskCounter';
 import { Task } from '../task/task';
+import { sendApiRequest } from '../../helpers/sendApiRequest';
+import { ITaskApi } from './interfaces/ITaskApi';
 
 export const TaskArea: FC = (): ReactElement => {
+  const { isError, isLoading, data, refetch } = useQuery(
+    ['tasks'],
+    async () => {
+      return await sendApiRequest<ITaskApi[]>(
+        'http://localhost:3200/tasks',
+        'GET',
+      );
+    },
+  );
+
   return (
     <Grid item md={8} px={4}>
       <Box mb={8} px={4}>
@@ -40,8 +58,33 @@ export const TaskArea: FC = (): ReactElement => {
           xs={10}
           md={8}
         >
-          <Task />
-          <Task />
+          {isError && (
+            <Alert
+              severity="error"
+              sx={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              There was an error fetching your tasks
+            </Alert>
+          )}
+
+          {!isError &&
+            Array.isArray(data) &&
+            data.length === 0 && (
+              <Alert severity="warning">
+                You do not have any tasks created yet. Start
+                by creating some tasks!
+              </Alert>
+            )}
+
+          {isLoading && <LinearProgress />}
+
+          <Task id="123" />
+          <Task id="123" />
         </Grid>
       </Grid>
     </Grid>

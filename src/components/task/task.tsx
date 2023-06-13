@@ -18,6 +18,7 @@ export const Task: FC<ITask> = (props): ReactElement => {
     status = Status.DONE,
     onSatatusChange = (e) => console.log(e),
     onClick = (e) => console.log(e),
+    id = '',
   } = props;
 
   return (
@@ -41,6 +42,8 @@ export const Task: FC<ITask> = (props): ReactElement => {
       <TaskFooter
         onClick={onClick}
         onSatatusChange={onSatatusChange}
+        id={id}
+        status={status}
       />
     </Box>
   );

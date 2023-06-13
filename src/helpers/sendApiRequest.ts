@@ -35,7 +35,7 @@ export const sendApiRequest = async <T>(
     throw new Error(message);
   }
   // ! WARNING
-  await pause(3000);
+  // await pause(3000);
   return (await response.json()) as Promise<T>;
 };
 
