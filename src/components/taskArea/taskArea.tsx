@@ -1,5 +1,8 @@
 import { FC, ReactElement } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import {
+  useQuery,
+  useMutation,
+} from '@tanstack/react-query';
 import {
   Grid,
   Box,
@@ -12,6 +15,7 @@ import { Task } from '../task/task';
 import { sendApiRequest } from '../../helpers/sendApiRequest';
 import { ITaskApi } from './interfaces/ITaskApi';
 import { Status } from '../createTaskForm/enums/Status';
+import { IUpdateTask } from './interfaces/IUpdateTask';
 
 export const TaskArea: FC = (): ReactElement => {
   const { isError, isLoading, data, refetch } = useQuery(
@@ -23,6 +27,27 @@ export const TaskArea: FC = (): ReactElement => {
       );
     },
   );
+
+  const updateTaskStatus = useMutation(
+    (data: IUpdateTask) =>
+      sendApiRequest(
+        'http://localhost:3200/tasks',
+        'PUT',
+        data,
+      ),
+  );
+
+  const onStatusChangeHandler = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: number,
+  ) => {
+    updateTaskStatus.mutate({
+      id,
+      status: e.target.checked
+        ? Status.IN_PROGRESS
+        : Status.TODO,
+    });
+  };
 
   return (
     <Grid item md={8} px={4}>
@@ -102,6 +127,7 @@ export const TaskArea: FC = (): ReactElement => {
                   description={task.description}
                   priority={task.priority}
                   status={task.status}
+                  onStatusChange={onStatusChangeHandler}
                 />
               ))
           )}

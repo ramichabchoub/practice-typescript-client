@@ -18,13 +18,10 @@ export const TaskFooter: FC<ITaskFooter> = (
     onClick = (e) => {
       console.log(e);
     },
-    onSatatusChange = (e) => {
+    onStatusChange = (e) => {
       console.log(e);
     },
   } = props;
-
-  console.log("status", status);
-  
 
   return (
     <Box
@@ -39,7 +36,7 @@ export const TaskFooter: FC<ITaskFooter> = (
           <Switch
             color="warning"
             onChange={(e) => {
-              onSatatusChange(e);
+              onStatusChange(e, id);
             }}
             defaultChecked={status === Status.IN_PROGRESS}
           />
@@ -53,7 +50,7 @@ export const TaskFooter: FC<ITaskFooter> = (
           color: 'white',
         }}
         onClick={(e) => {
-          onClick(e);
+          onClick(e, id);
         }}
       >
         Mark Complete
@@ -66,5 +63,5 @@ TaskFooter.propTypes = {
   id: propTypes.number.isRequired,
   status: propTypes.string,
   onClick: propTypes.func,
-  onSatatusChange: propTypes.func,
+  onStatusChange: propTypes.func,
 };
