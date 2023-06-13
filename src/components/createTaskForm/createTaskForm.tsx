@@ -1,4 +1,9 @@
-import { FC, ReactElement, useState } from 'react';
+import {
+  FC,
+  ReactElement,
+  useState,
+  useEffect,
+} from 'react';
 import { useMutation } from '@tanstack/react-query';
 import {
   Box,
@@ -34,6 +39,8 @@ export const CreateTaskForm: FC = (): ReactElement => {
   const [taskPriority, setTaskPriority] = useState<string>(
     Priority.NORMAL,
   );
+  const [showSuccessAlert, setShowSuccessAlert] =
+    useState<boolean>(false);
 
   const createTaskMutation = useMutation(
     (data: ICreateTask) =>
@@ -58,6 +65,18 @@ export const CreateTaskForm: FC = (): ReactElement => {
     createTaskMutation.mutate(task);
   };
 
+  useEffect(() => {
+    if (createTaskMutation.isSuccess) {
+      setShowSuccessAlert(true);
+    }
+    const timeout = setTimeout(() => {
+      setShowSuccessAlert(false);
+    }, 3000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [createTaskMutation.isSuccess]);
+
   return (
     <Box
       display="flex"
@@ -67,14 +86,15 @@ export const CreateTaskForm: FC = (): ReactElement => {
       px={4}
       my={6}
     >
-      <Alert
-        severity="success"
-        sx={{ width: '100%', marginBottom: '16' }}
-      >
-        <AlertTitle>Success</AlertTitle>
-        The task has been created successfully.
-      </Alert>
-
+      {showSuccessAlert && (
+        <Alert
+          severity="success"
+          sx={{ width: '100%', marginBottom: '16' }}
+        >
+          <AlertTitle>Success</AlertTitle>
+          The task has been created successfully.
+        </Alert>
+      )}
       <Typography mb={2} variant="h6" component={'h2'}>
         Create A Task
       </Typography>
