@@ -14,11 +14,11 @@ export const Task: FC<ITask> = (props): ReactElement => {
     title = 'Test Title',
     date = new Date(),
     description = 'Test Description',
-    prioprity = Priority.LOW,
+    priority = Priority.LOW,
     status = Status.DONE,
     onSatatusChange = (e) => console.log(e),
     onClick = (e) => console.log(e),
-    id = '',
+    id,
   } = props;
 
   return (
@@ -34,7 +34,7 @@ export const Task: FC<ITask> = (props): ReactElement => {
         backgroundColor: 'background.paper',
         borderRadius: '8px',
         border: '1px solid',
-        borderColor: renderPriorityBorderColor(prioprity),
+        borderColor: renderPriorityBorderColor(priority),
       }}
     >
       <TaskHeader title={title} date={date} />
@@ -55,6 +55,6 @@ Task.propTypes = {
   description: propTypes.string,
   onSatatusChange: propTypes.func,
   onClick: propTypes.func,
-  prioprity: propTypes.string,
+  priority: propTypes.string,
   status: propTypes.string,
 };

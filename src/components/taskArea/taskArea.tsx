@@ -11,6 +11,7 @@ import { TaskCounter } from '../taskCounter/taskCounter';
 import { Task } from '../task/task';
 import { sendApiRequest } from '../../helpers/sendApiRequest';
 import { ITaskApi } from './interfaces/ITaskApi';
+import { Status } from '../createTaskForm/enums/Status';
 
 export const TaskArea: FC = (): ReactElement => {
   const { isError, isLoading, data, refetch } = useQuery(
@@ -22,8 +23,6 @@ export const TaskArea: FC = (): ReactElement => {
       );
     },
   );
-
-  console.log(data);
 
   return (
     <Grid item md={8} px={4}>
@@ -88,17 +87,23 @@ export const TaskArea: FC = (): ReactElement => {
           ) : (
             Array.isArray(data) &&
             data.length > 0 &&
-            data.map((task, index) => (
-              <Task
-                key={index}
-                id={task.id}
-                title={task.title}
-                date={new Date(task.date)}
-                description={task.description}
-                prioprity={task.priority}
-                status={task.status}
-              />
-            ))
+            data
+              .filter(
+                (task) =>
+                  task.status === Status.TODO ||
+                  task.status === Status.IN_PROGRESS,
+              )
+              .map((task, index) => (
+                <Task
+                  key={index}
+                  id={Number(task.id)}
+                  title={task.title}
+                  date={new Date(task.date)}
+                  description={task.description}
+                  priority={task.priority}
+                  status={task.status}
+                />
+              ))
           )}
         </Grid>
       </Grid>
