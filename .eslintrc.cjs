@@ -15,5 +15,7 @@ module.exports = {
   plugins: ['react-refresh', 'prettier'],
   rules: {
     'react-refresh/only-export-components': 'warn',
+    'no-empty-function': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
   },
 };
