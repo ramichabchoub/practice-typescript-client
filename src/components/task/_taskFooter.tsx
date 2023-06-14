@@ -50,7 +50,7 @@ export const TaskFooter: FC<ITaskFooter> = (
           color: 'white',
         }}
         onClick={(e) => {
-          onClick(e, id);
+          onClick(id, e);
         }}
       >
         Mark Complete

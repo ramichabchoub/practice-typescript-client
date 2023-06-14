@@ -49,6 +49,13 @@ export const TaskArea: FC = (): ReactElement => {
     });
   };
 
+  const onMarkAsDoneHandler = (id: number) => {
+    updateTaskStatus.mutate({
+      id,
+      status: Status.DONE,
+    });
+  };
+
   return (
     <Grid item md={8} px={4}>
       <Box mb={8} px={4}>
@@ -128,6 +135,7 @@ export const TaskArea: FC = (): ReactElement => {
                   priority={task.priority}
                   status={task.status}
                   onStatusChange={onStatusChangeHandler}
+                  onClick={onMarkAsDoneHandler}
                 />
               ))
           )}
